@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Rabbit Hunter - AIGameLab</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: radial-gradient(circle, #2d5a27 0%, #1a3c15 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            touch-action: none;
+        }
+
+        #rabbit, #carrot {
+            position: absolute;
+            font-size: 60px;
+            user-select: none;
+            pointer-events: none; /* Prevents interference with touch */
+        }
+
+        #rabbit { z-index: 10; transition: transform 0.1s; }
+        #carrot { z-index: 20; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+
+        .ui {
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: #00ffcc;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0,255,204,0.5);
+            pointer-events: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 255, 204, 0.2);
+            color: #00ffcc;
+            text-decoration: none;
+            border: 1px solid #00ffcc;
+            border-radius: 50px;
+            font-size: 14px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ui">FEED THE HUNGRY RABBIT!</div>
+    <a href="index.html" class="back-btn">⬅ BACK TO MENU</a>
+    
+    <div id="rabbit">🐇</div>
+    <div id="carrot">🥕</div>
+
+    <script>
+        const rabbit = document.getElementById('rabbit');
+        const carrot = document.getElementById('carrot');
+
+        let carrotX = window.innerWidth / 2;
+        let carrotY = window.innerHeight / 2;
+        let rabbitX = 100;
+        let rabbitY = 100;
+
+        const speed = 0.06;
+
+        // Mouse Control
+        window.addEventListener('mousemove', (e) => {
+            carrotX = e.clientX - 30;
+            carrotY = e.clientY - 30;
+            updatePosition(carrot, carrotX, carrotY);
+        });
+
+        // Touch Control
+        window.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            carrotX = touch.clientX - 30;
+            carrotY = touch.clientY - 30;
+            updatePosition(carrot, carrotX, carrotY);
+        });
+
+        function updatePosition(el, x, y) {
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+        }
+
+        function animate() {
+            let dx = carrotX - rabbitX;
+            let dy = carrotY - rabbitY;
+
+            rabbitX += dx * speed;
+            rabbitY += dy * speed;
+
+            // Flip rabbit based on direction
+            if (dx > 0) {
+                rabbit.style.transform = 'scaleX(-1)'; 
+            } else {
+                rabbit.style.transform = 'scaleX(1)'; 
+            }
+
+            updatePosition(rabbit, rabbitX, rabbitY);
+
+            // Catching logic
+            let distance = Math.sqrt(dx*dx + dy*dy);
+            if (distance < 40) {
+                rabbit.innerText = '😋';
+                setTimeout(() => { rabbit.innerText = '🐇'; }, 300);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        updatePosition(carrot, carrotX, carrotY);
+        animate();
+    </script>
+</body>
+</html>
