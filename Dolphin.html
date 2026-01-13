@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dolphin Keeper - AIGameLab</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #0077be; font-family: sans-serif; touch-action: none; }
+        
+        /* Ocean Waves Background */
+        #ocean { 
+            position: relative; width: 100vw; height: 100vh; 
+            background: linear-gradient(180deg, #4facfe 0%, #0077be 100%);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230099ff" fill-opacity="0.3" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,213.3C960,224,1056,192,1152,165.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-repeat: repeat-x; background-size: contain;
+        }
+        
+        /* Target Circles */
+        .circle { 
+            position: absolute; width: 70px; height: 70px; 
+            border: 5px solid; border-radius: 50%; top: 20%; 
+            z-index: 5;
+        }
+        #target-red { border-color: #ff4d4d; left: 15%; }
+        #target-yellow { border-color: #ffd700; left: 45%; top: 35%; }
+        #target-green { border-color: #2ecc71; right: 15%; }
+
+        /* Shooter Balls */
+        .ball { 
+            position: absolute; bottom: 10%; width: 60px; height: 60px; 
+            border-radius: 50%; font-size: 40px; display: flex; 
+            align-items: center; justify-content: center; cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20;
+        }
+        #ball-red { background: #ff4d4d; left: 15%; }
+        #ball-yellow { background: #ffd700; left: 45%; }
+        #ball-green { background: #2ecc71; right: 15%; }
+
+        #dolphin { 
+            position: absolute; top: 10%; left: 45%; font-size: 70px; 
+            transition: all 0.4s ease-out; z-index: 2; /* Behind circles as requested */
+        }
+
+        .stats { position: absolute; top: 10px; width: 100%; text-align: center; color: white; font-size: 20px; font-weight: bold; z-index: 30; }
+        .back-btn { position: absolute; top: 10px; left: 10px; color: white; text-decoration: none; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; z-index: 100; }
+    </style>
+</head>
+<body>
+
+<div id="ocean">
+    <a href="index.html" class="back-btn">⬅ Menu</a>
+    <div class="stats">SCORE: <span id="score">0</span> | SAVED: <span id="saved">0</span></div>
+
+    <div class="circle" id="target-red"></div>
+    <div class="circle" id="target-yellow"></div>
+    <div class="circle" id="target-green"></div>
+
+    <div id="dolphin">🐬</div>
+
+    <div class="ball" id="ball-red" onclick="shoot('red')">⚽</div>
+    <div class="ball" id="ball-yellow" onclick="shoot('yellow')">⚽</div>
+    <div class="ball" id="ball-green" onclick="shoot('green')">⚽</div>
+</div>
+
+<script>
+    let score = 0; let saved = 0; let isActing = false;
+
+    function shoot(color) {
+        if (isActing) return;
+        isActing = true;
+
+        const ball = document.getElementById('ball-' + color);
+        const target = document.getElementById('target-' + color);
+        const dolphin = document.getElementById('dolphin');
+
+        const targetRect = target.getBoundingClientRect();
+        const startRect = ball.getBoundingClientRect();
+
+        // Move Ball to Target
+        ball.style.transform = `translate(${targetRect.left - startRect.left}px, ${targetRect.top - startRect.top}px) scale(0.7)`;
+
+        // Dolphin Reaction
+        setTimeout(() => {
+            dolphin.style.left = targetRect.left + "px";
+            dolphin.style.top = targetRect.top + "px";
+            dolphin.style.zIndex = "25"; // Jump in front to catch
+
+            setTimeout(() => {
+                if (Math.random() > 0.4) { // 60% Chance of saving
+                    dolphin.innerText = '😜';
+                    saved++;
+                    document.getElementById('saved').innerText = saved;
+                } else {
+                    dolphin.innerText = '😭';
+                    score++;
+                    document.getElementById('score').innerText = score;
+                }
+                
+                // Reset Game
+                setTimeout(() => {
+                    ball.style.transform = "translate(0,0) scale(1)";
+                    dolphin.style.top = "10%";
+                    dolphin.style.left = "45%";
+                    dolphin.style.zIndex = "2";
+                    dolphin.innerText = "🐬";
+                    isActing = false;
+                }, 800);
+            }, 300);
+        }, 100);
+    }
+</script>
+</body>
+</html>
