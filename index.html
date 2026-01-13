@@ -1,0 +1,77 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AIGameLab - Neon Snake Mobile</title>
+    <style>
+        body { background: #050b15; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; touch-action: manipulation; }
+        canvas { border: 3px solid #00f2ff; box-shadow: 0 0 15px #00f2ff; background: #000; max-width: 90vw; max-height: 50vh; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+        .btn { width: 60px; height: 60px; background: rgba(0, 242, 255, 0.2); border: 2px solid #00f2ff; border-radius: 10px; color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; -webkit-user-select: none; }
+        .btn:active { background: #00f2ff; color: #000; }
+        .score { font-size: 20px; margin-bottom: 10px; color: #00f2ff; }
+        #up { grid-column: 2; }
+        #left { grid-column: 1; }
+        #down { grid-column: 2; }
+        #right { grid-column: 3; }
+    </style>
+</head>
+<body>
+    <h1>AIGameLab</h1>
+    <div class="score">Score: <span id="scoreVal">0</span></div>
+    <canvas id="snakeGame" width="400" height="400"></canvas>
+
+    <div class="controls">
+        <div class="btn" id="up" onclick="setDir('UP')">▲</div>
+        <div class="btn" id="left" onclick="setDir('LEFT')">◀</div>
+        <div class="btn" id="down" onclick="setDir('DOWN')">▼</div>
+        <div class="btn" id="right" onclick="setDir('RIGHT')">▶</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("snakeGame");
+        const ctx = canvas.getContext("2d");
+        let box = 20; let score = 0;
+        let snake = [{x: 9 * box, y: 10 * box}];
+        let food = { x: Math.floor(Math.random() * 19) * box, y: Math.floor(Math.random() * 19) * box };
+        let d;
+
+        function setDir(dir) {
+            if(dir == "LEFT" && d != "RIGHT") d = "LEFT";
+            if(dir == "UP" && d != "DOWN") d = "UP";
+            if(dir == "RIGHT" && d != "LEFT") d = "RIGHT";
+            if(dir == "DOWN" && d != "UP") d = "DOWN";
+        }
+
+        document.addEventListener("keydown", e => {
+            if(e.keyCode == 37) setDir("LEFT");
+            if(e.keyCode == 38) setDir("UP");
+            if(e.keyCode == 39) setDir("RIGHT");
+            if(e.keyCode == 40) setDir("DOWN");
+        });
+
+        function draw() {
+            ctx.fillStyle = "black"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for(let i=0; i<snake.length; i++) {
+                ctx.fillStyle = (i==0) ? "#00f2ff" : "#005a5f";
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+            }
+            ctx.fillStyle = "#ff0055"; ctx.fillRect(food.x, food.y, box, box);
+            let sX = snake[0].x; let sY = snake[0].y;
+            if(d == "LEFT") sX -= box; if(d == "UP") sY -= box;
+            if(d == "RIGHT") sX += box; if(d == "DOWN") sY += box;
+            if(sX == food.x && sY == food.y) {
+                score++; document.getElementById("scoreVal").innerHTML = score;
+                food = { x: Math.floor(Math.random() * 19) * box, y: Math.floor(Math.random() * 19) * box };
+            } else { snake.pop(); }
+            let head = {x: sX, y: sY};
+            if(sX < 0 || sX >= canvas.width || sY < 0 || sY >= canvas.height || snake.some((s,i) => i!=0 && s.x==head.x && s.y==head.y)) {
+                alert("Game Over! Score: " + score); location.reload();
+            }
+            snake.unshift(head);
+        }
+        setInterval(draw, 120);
+    </script>
+</body>
+</html>
