@@ -4,55 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIGameLab | Premium Game Collection</title>
+    <title>AIGameLab | AI Games Collection</title>
     <style>
         :root { --neon: #00ffcc; --dark: #0a0f1d; --card: #161e2e; }
         body { background-color: var(--dark); color: white; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; padding: 50px 0; text-align: center; background: linear-gradient(to bottom, #111a2e, var(--dark)); }
-        h1 { font-size: 3.5rem; margin: 0; color: var(--neon); text-shadow: 0 0 20px var(--neon); letter-spacing: 3px; font-weight: 900; }
-        .subtitle { color: #8899a6; margin-top: 15px; font-size: 1.2rem; letter-spacing: 1px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; width: 90%; max-width: 1200px; padding: 50px 0; }
-        .card { background: var(--card); border: 1px solid #253347; border-radius: 25px; padding: 30px; text-align: center; transition: 0.5s; text-decoration: none; color: white; position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-15px); border-color: var(--neon); box-shadow: 0 15px 40px rgba(0, 255, 204, 0.2); }
-        .icon { font-size: 60px; margin-bottom: 20px; display: block; }
-        .card h3 { margin: 15px 0; font-size: 1.8rem; color: #fff; }
-        .card p { color: #8899a6; font-size: 1rem; line-height: 1.6; }
-        .btn { margin-top: 25px; display: inline-block; padding: 12px 35px; background: var(--neon); color: black; border-radius: 50px; font-weight: bold; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .card:hover .btn { box-shadow: 0 0 20px var(--neon); transform: scale(1.05); }
-        .locked { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
-        .badge { position: absolute; top: 20px; right: 20px; background: #ff3366; color: white; padding: 5px 15px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+        header { width: 100%; padding: 40px 0; text-align: center; background: linear-gradient(to bottom, #111a2e, var(--dark)); }
+        h1 { font-size: 3rem; margin: 0; color: var(--neon); text-shadow: 0 0 20px var(--neon); letter-spacing: 2px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 90%; max-width: 1200px; padding: 40px 0; }
+        .card { background: var(--card); border: 1px solid #253347; border-radius: 20px; padding: 25px; text-align: center; transition: 0.4s; text-decoration: none; color: white; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-10px); border-color: var(--neon); box-shadow: 0 10px 30px rgba(0, 255, 204, 0.2); }
+        .icon { font-size: 50px; margin-bottom: 15px; display: block; }
+        .btn { margin-top: 20px; display: inline-block; padding: 10px 30px; background: var(--neon); color: black; border-radius: 50px; font-weight: bold; }
+        .badge { position: absolute; top: 15px; right: 15px; background: #ff3366; color: white; padding: 4px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>AIGameLab</h1>
-    <div class="subtitle">AI-POWERED ARCADE EXPERIENCE</div>
+    <div style="color: #8899a6;">EXPLORE THE UNIVERSE OF AI GAMES</div>
 </header>
 
 <div class="grid">
     <a href="Snake.html" class="card">
-        <span class="badge">Live</span>
         <span class="icon">🐍</span>
         <h3>Neon Snake</h3>
-        <p>Classic arcade action with neon aesthetics. Fully optimized for mobile touch and desktop.</p>
-        <span class="btn">Play Now</span>
+        <p>Classic arcade with a neon twist.</p>
+        <span class="btn">PLAY</span>
     </a>
 
     <a href="Rabbit.html" class="card">
-        <span class="badge">New</span>
         <span class="icon">🐇</span>
         <h3>Rabbit Hunter</h3>
-        <p>Catch the carrot! A fun physics-based game for touch and mouse control.</p>
-        <span class="btn">Play Now</span>
+        <p>Chase the carrot on the grass.</p>
+        <span class="btn">PLAY</span>
     </a>
 
-    <div class="card locked">
-        <span class="icon">⚔️</span>
-        <h3>Cyber Quest</h3>
-        <p>A futuristic RPG challenge. Currently in the early development phase.</p>
-        <span class="btn">Locked</span>
-    </div>
+    <a href="Dolphin.html" class="card">
+        <span class="badge">NEW</span>
+        <span class="icon">🐬</span>
+        <h3>Dolphin Keeper</h3>
+        <p>Match the colors and beat the dolphin!</p>
+        <span class="btn" style="background: #fff;">PLAY</span>
+    </a>
 </div>
 
 </body>
